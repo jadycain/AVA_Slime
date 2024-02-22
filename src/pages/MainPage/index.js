@@ -146,7 +146,7 @@ const SatietyValue = styled.span`
 
 const SlimeWrapper = styled.div`
   position: absolute;
-  bottom: 5%;
+  bottom: 10%;
   left: 50%;
   transform: translateX(-50%);
 `;
@@ -224,28 +224,52 @@ const MainPage = () => {
   ];
 
   const SlimeAnimInit = contextSafe(() => {
-    gsap.to(".slime", {
-      duration: 1.5,
-      y: -20,
-      x: +0,
+    console.log(windowSize[0] * 0.3);
+    const tl = gsap.timeline();
+    tl.to(".slime", {
+      duration: 2.5,
+      y: +50,
+      // x: +300,
       repeat: -1,
       yoyo: true,
-      ease: "sine.inOut",
-    });
+      ease: "power2.inOut",
+    })
+      .to(
+        ".slime",
+        {
+          duration: 8,
+          x: `+${windowSize[0] * 0.3}`,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+        },
+        ">"
+      )
+      .to(
+        ".slime",
+        {
+          duration: 8,
+          x: `-${windowSize[0] * 0.3}`,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+        },
+        ">"
+      );
   });
 
   const SlimeAnimEnlarge = contextSafe(() => {
     gsap.to(".slime", {
       duration: 0.2,
       scale: 1.1,
-      ease: "sine.inOut",
+      ease: "sine.out",
     });
   });
   const SlimeAnimReduce = contextSafe(() => {
     gsap.to(".slime", {
       duration: 0.2,
       scale: 1,
-      ease: "sine.inOut",
+      ease: "sine.out",
     });
   });
 
@@ -271,7 +295,7 @@ const MainPage = () => {
 
           onDrag: () => {
             gsap.to(draggable[0].target, {
-              duration: 0.1,
+              duration: 0,
               scale: 1.3,
             });
             if (draggable[0].hitTest(".slime")) {
